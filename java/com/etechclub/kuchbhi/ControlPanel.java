@@ -17,6 +17,7 @@ public class ControlPanel extends AppCompatActivity {
     boolean toggleSwitch1;
     boolean toggleSwitch2;
     boolean toggleSwitch3;
+    boolean isConnected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,9 @@ public class ControlPanel extends AppCompatActivity {
         textView.setTextColor(Color.WHITE);
         textView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         textView.setText("Connected");
+        // Add code here to check for ping
+        // IF all things works fine then execute the below line
+        isConnected = true;
     }
 
     public void toggleSwitch1(View view) {
@@ -106,6 +110,7 @@ public class ControlPanel extends AppCompatActivity {
         bundle.putBoolean("switch1", toggleSwitch1);
         bundle.putBoolean("switch2", toggleSwitch2);
         bundle.putBoolean("switch3", toggleSwitch3);
+        bundle.putBoolean("isConnected", isConnected);
         super.onSaveInstanceState(bundle);
     }
 
@@ -116,6 +121,7 @@ public class ControlPanel extends AppCompatActivity {
         toggleSwitch1 = bundle.getBoolean("switch1");
         toggleSwitch2 = bundle.getBoolean("switch2");
         toggleSwitch3 = bundle.getBoolean("switch3");
+        isConnected = bundle.getBoolean("isConnected");
 
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch1);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch1);
@@ -144,6 +150,16 @@ public class ControlPanel extends AppCompatActivity {
             textView.setText("OFF");
             imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
         }
+        textView = (TextView) findViewById(R.id.connect_status);
+        if (isConnected) {
+            textView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            textView.setText("Connected");
+        }
 
     }
+
+
+/**
+ * Code from here belongs to connecting to board
+ */
 }
