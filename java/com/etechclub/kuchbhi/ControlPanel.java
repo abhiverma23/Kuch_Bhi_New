@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ControlPanel extends AppCompatActivity {
 
@@ -18,7 +19,7 @@ public class ControlPanel extends AppCompatActivity {
     private boolean toggleSwitch3 = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v("Control Panel","In onCreate() Method");
+        Log.v("Control Panel", "In onCreate() Method");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.control_panel);
     }
@@ -78,5 +79,21 @@ public class ControlPanel extends AppCompatActivity {
             textView.setText("OFF");
             imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
         }
+    }
+
+    public void timeSwitch(View view) {
+        Log.v("Control Panel","In timeSwitch() Method");
+        int id = view.getId();
+        Log.v("Control Panel", "Id is " + id);
+        if(id == R.id.t1){
+            Toast.makeText(this, "Set Time for 1",Toast.LENGTH_SHORT).show();
+        }
+        if(id == R.id.t2){
+            Toast.makeText(this, "Set Time for 2",Toast.LENGTH_SHORT).show();
+        }
+        if(id == R.id.t3){
+            Toast.makeText(this, "Set Time for 3",Toast.LENGTH_SHORT).show();
+        }
+        // TODO : ADD task here to submit scheduled task
     }
 }
