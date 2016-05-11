@@ -25,7 +25,7 @@ public class ControlPanel extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.v("Control Panel","In onCreateOptionMenu() Method");
+        Log.v("Control Panel", "In onCreateOptionMenu() Method");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_file, menu);
 
@@ -46,6 +46,32 @@ public class ControlPanel extends AppCompatActivity {
         ImageView imageView = (ImageView)findViewById(R.id.toggle_button_switch1);
         toggleSwitch1 = toggleSwitch1 ? false : true;
         if(toggleSwitch1){
+            textView.setText("ON");
+            imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
+        }else{
+            textView.setText("OFF");
+            imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
+        }
+    }
+    public void toggleSwitch2(View view) {
+        Log.v("Control Panel","In toggleSwitch2() Method");
+        TextView textView = (TextView)findViewById(R.id.toggle_text_switch2);
+        ImageView imageView = (ImageView)findViewById(R.id.toggle_button_switch2);
+        toggleSwitch2 = toggleSwitch2 ? false : true;
+        if(toggleSwitch2){
+            textView.setText("ON");
+            imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
+        }else{
+            textView.setText("OFF");
+            imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
+        }
+    }
+    public void toggleSwitch3(View view) {
+        Log.v("Control Panel","In toggleSwitch3() Method");
+        TextView textView = (TextView)findViewById(R.id.toggle_text_switch3);
+        ImageView imageView = (ImageView)findViewById(R.id.toggle_button_switch3);
+        toggleSwitch3 = toggleSwitch3 ? false : true;
+        if(toggleSwitch3){
             textView.setText("ON");
             imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
         }else{
