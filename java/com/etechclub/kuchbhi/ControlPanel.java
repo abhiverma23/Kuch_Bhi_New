@@ -3,6 +3,7 @@ package com.etechclub.kuchbhi;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,12 +18,14 @@ public class ControlPanel extends AppCompatActivity {
     private boolean toggleSwitch3 = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.v("Control Panel","In onCreate() Method");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.control_panel);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.v("Control Panel","In onCreateOptionMenu() Method");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_file, menu);
 
@@ -30,6 +33,7 @@ public class ControlPanel extends AppCompatActivity {
     }
 
     public void connect(MenuItem item){
+        Log.v("Control Panel","In connect() Method");
         TextView textView = (TextView) findViewById(R.id.connect_status);
         textView.setTextColor(Color.WHITE);
         textView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -37,6 +41,7 @@ public class ControlPanel extends AppCompatActivity {
     }
 
     public void toggleSwitch1(View view) {
+        Log.v("Control Panel","In toggleSwitch1() Method");
         TextView textView = (TextView)findViewById(R.id.toggle_text_switch1);
         ImageView imageView = (ImageView)findViewById(R.id.toggle_button_switch1);
         toggleSwitch1 = toggleSwitch1 ? false : true;
