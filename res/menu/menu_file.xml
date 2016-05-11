@@ -4,4 +4,8 @@
     android:icon="@android:drawable/ic_lock_idle_charging"
     android:title="Connect"
     android:onClick="connect"/>
+    <item android:id="@+id/edit_connection"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="Edit Connection"
+        android:onClick="editConnection"/>
 </menu>
