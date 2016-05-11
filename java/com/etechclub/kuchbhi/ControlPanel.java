@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ControlPanel extends AppCompatActivity {
@@ -34,15 +36,16 @@ public class ControlPanel extends AppCompatActivity {
         textView.setText("Connected");
     }
 
-    /*public void toggleSwitch1(View view) {
+    public void toggleSwitch1(View view) {
         TextView textView = (TextView)findViewById(R.id.toggle_text_switch1);
         ImageView imageView = (ImageView)findViewById(R.id.toggle_button_switch1);
         toggleSwitch1 = toggleSwitch1 ? false : true;
         if(toggleSwitch1){
             textView.setText("ON");
-            imageView.setImageResource(R.string.);
+            imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
         }else{
             textView.setText("OFF");
+            imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
         }
-    }*/
+    }
 }
