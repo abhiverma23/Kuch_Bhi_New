@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.InputStream;
 
 public class ControlPanel extends AppCompatActivity {
+
+    final private int SCHEDULER_SCREEN = 1;
+    final private int MAIN_SCREEN = 0;
+    private boolean isOnSwitchScreen = true;
 
     boolean toggleSwitch1;
     boolean toggleSwitch2;
@@ -109,6 +114,8 @@ public class ControlPanel extends AppCompatActivity {
     public void timeSwitch(View view) {
         Log.v("Control Panel", "In timeSwitch() Method");
         int id = view.getId();
+        makeVisible(SCHEDULER_SCREEN);
+        isOnSwitchScreen = false;
         Log.v("Control Panel", "Id is " + id);
         if (id == R.id.t1) {
             Toast.makeText(this, "Set Time for 1", Toast.LENGTH_SHORT).show();
@@ -120,6 +127,24 @@ public class ControlPanel extends AppCompatActivity {
             Toast.makeText(this, "Set Time for 3", Toast.LENGTH_SHORT).show();
         }
         // TODO : ADD task here to submit scheduled task
+    }
+
+    public void cancelScheduler(View view) {
+        makeVisible(MAIN_SCREEN);
+        isOnSwitchScreen = true;
+    }
+
+    private void makeVisible(int screen) {
+        LinearLayout layoutSwitches, layoutScheduler;
+        layoutSwitches = (LinearLayout) findViewById(R.id.control_panel_switches);
+        layoutScheduler = (LinearLayout) findViewById(R.id.control_panel_scheduler);
+        if (screen == SCHEDULER_SCREEN) {
+            layoutSwitches.setVisibility(View.INVISIBLE);
+            layoutScheduler.setVisibility(View.VISIBLE);
+        } else if (screen == MAIN_SCREEN) {
+            layoutSwitches.setVisibility(View.VISIBLE);
+            layoutScheduler.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -213,6 +238,18 @@ public class ControlPanel extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!isOnSwitchScreen) {
+            makeVisible(MAIN_SCREEN);
+            isOnSwitchScreen = true;
+            return;
+        }
+
+        // Otherwise defer to system default behavior.
+        super.onBackPressed();
+    }
+
     /**
      * Code from here belongs to connecting to board
      */
@@ -244,4 +281,6 @@ public class ControlPanel extends AppCompatActivity {
             return check;
         }
     }
+
+
 }
