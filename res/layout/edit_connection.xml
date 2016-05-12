@@ -28,11 +28,12 @@
 
         <EditText
             android:layout_width="match_parent"
+            android:id="@+id/ip"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_weight="0"
             android:hint="192.168.192.168"
-            android:text="192.168.192.168"
+            android:text="192.168.192.1"
             android:textAlignment="center"
             android:textColor="@color/colorAccent"
             android:textSize="24sp" />
@@ -52,6 +53,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/port"
             android:layout_weight="0"
             android:hint="80 or 8080 or 2323 etc"
             android:inputType="number"
@@ -71,13 +73,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Check Connection" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Check Connection" />
+                android:text="Check Connection"
+                android:onClick="checkConnection"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

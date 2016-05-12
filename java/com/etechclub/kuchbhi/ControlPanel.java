@@ -31,7 +31,7 @@ public class ControlPanel extends AppCompatActivity {
 
     String ip = "192.168.192.1";
     final String ping = "ping/ping.php", task = "task.php";
-    int port = 8080;
+    String port = "8080";
 
     InputStream is = null;
 
@@ -53,20 +53,22 @@ public class ControlPanel extends AppCompatActivity {
 
     public void connect(MenuItem item) {
         Log.v("Control Panel", "In connect() Method");
-        TextView textView = (TextView) findViewById(R.id.connect_status);
-        textView.setTextColor(Color.WHITE);
-        textView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        textView.setText("Connected");
-        // Add code here to check for ping
-        // IF all things works fine then execute the below line
-        isConnected = true;
+        if (turn(null, ping)) {
+            TextView textView = (TextView) findViewById(R.id.connect_status);
+            textView.setTextColor(Color.WHITE);
+            textView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            textView.setText("Connected");
+            isConnected = true;
+        } else {
+            Toast.makeText(this, "Unable to connect : Edit IP and PORT", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void toggleSwitch1(View view) {
         Log.v("Control Panel", "In toggleSwitch1() Method");
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch1);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch1);
-        toggleSwitch1 = toggleSwitch1 ? false : true;
+        toggleSwitch1 = !toggleSwitch1;
         if (toggleSwitch1) {
             textView.setText("ON");
             imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
@@ -80,7 +82,7 @@ public class ControlPanel extends AppCompatActivity {
         Log.v("Control Panel", "In toggleSwitch2() Method");
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch2);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch2);
-        toggleSwitch2 = toggleSwitch2 ? false : true;
+        toggleSwitch2 = !toggleSwitch2;
         if (toggleSwitch2) {
             textView.setText("ON");
             imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
@@ -94,7 +96,7 @@ public class ControlPanel extends AppCompatActivity {
         Log.v("Control Panel", "In toggleSwitch3() Method");
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch3);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch3);
-        toggleSwitch3 = toggleSwitch3 ? false : true;
+        toggleSwitch3 = !toggleSwitch3;
         if (toggleSwitch3) {
             textView.setText("ON");
             imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
@@ -138,10 +140,10 @@ public class ControlPanel extends AppCompatActivity {
         toggleSwitch2 = bundle.getBoolean("switch2");
         toggleSwitch3 = bundle.getBoolean("switch3");
         isConnected = bundle.getBoolean("isConnected");
-        if (bundle.containsKey("ip")) {
-            Toast.makeText(this, "Yes", Toast.LENGTH_SHORT).show();
+        if (StaticIp.ip != null) {
+            Toast.makeText(this, StaticIp.ip + ":" + StaticIp.port, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "No", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "It is null", Toast.LENGTH_SHORT).show();
         }
 
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch1);
@@ -175,15 +177,41 @@ public class ControlPanel extends AppCompatActivity {
         if (isConnected) {
             textView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             textView.setText("Connected");
+        } else {
+            textView.setBackgroundColor(Color.RED);
+            textView.setText("Not Connected");
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (StaticIp.ip != null) {
+            ip = StaticIp.ip;
+            port = StaticIp.port;
+        } else {
+            StaticIp.ip = getResources().getText(R.string.ip).toString();
+            StaticIp.port = getResources().getText(R.string.port).toString();
+        }
+        isConnected = StaticIp.flagEditConnection ? StaticIp.isConnected : isConnected;
+        if (StaticIp.flagEditConnection) {
+            Log.v("Control Panel", "Here in checking state ::: " + isConnected);
+        }
+        StaticIp.flagEditConnection = false;
+        TextView textView = (TextView) findViewById(R.id.connect_status);
+        if (isConnected) {
+            textView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            textView.setText("Connected");
+        } else {
+            textView.setBackgroundColor(Color.RED);
+            textView.setText("Not Connected");
+        }
     }
 
     public void editConnection(MenuItem item) {
         Intent intent = new Intent("com.etechclub.kuchbhi.EDITCONNECTION");
         startActivity(intent);
     }
-
 
     /**
      * Code from here belongs to connecting to board
@@ -201,7 +229,7 @@ public class ControlPanel extends AppCompatActivity {
             @SuppressWarnings("deprecation") HttpClient httpclient = new DefaultHttpClient();
             Log.e("Pass 1.0", "httpclient created");
             @SuppressWarnings("deprecation") HttpPost httppost = new HttpPost(
-                    "http://" + ip + ":" + port + "/php_project/" + tdo +"/?" + s);
+                    "http://" + ip + ":" + port + "/php_project/" + tdo + "/?" + s);
             Log.e("Pass 1.0", "Link setup done");
             HttpResponse response = httpclient.execute(httppost);
             Log.e("Pass 1.0", "Link executed");
