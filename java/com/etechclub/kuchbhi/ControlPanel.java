@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
@@ -39,12 +40,22 @@ public class ControlPanel extends AppCompatActivity {
     String port = "8080";
 
     InputStream is = null;
+    private int h, m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.v("Control Panel", "In onCreate() Method");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.control_panel);
+
+        TimePicker timePicker = (TimePicker) findViewById(R.id.timePicker);
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                h = hourOfDay;
+                m = minute;
+            }
+        });
     }
 
     @Override
@@ -74,12 +85,19 @@ public class ControlPanel extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch1);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch1);
         toggleSwitch1 = !toggleSwitch1;
-        if (toggleSwitch1) {
-            textView.setText("ON");
-            imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
-        } else {
-            textView.setText("OFF");
-            imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
+        String s = "task=" + (toggleSwitch1?"ON":"OFF") + "&pin=" + 66;
+        if(turn(s,task)) {
+            makeToast("Switching Done! ☺");
+            if (toggleSwitch1) {
+                textView.setText("ON");
+                imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
+            } else {
+                textView.setText("OFF");
+                imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
+            }
+        }
+        else {
+            makeToast("Switching Fail!");
         }
     }
 
@@ -88,12 +106,19 @@ public class ControlPanel extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch2);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch2);
         toggleSwitch2 = !toggleSwitch2;
-        if (toggleSwitch2) {
-            textView.setText("ON");
-            imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
-        } else {
-            textView.setText("OFF");
-            imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
+        String s = "task=" + (toggleSwitch2?"ON":"OFF") + "&pin=" + 69;
+        if(turn(s,task)) {
+            makeToast("Switching Done! ☺");
+            if (toggleSwitch2) {
+                textView.setText("ON");
+                imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
+            } else {
+                textView.setText("OFF");
+                imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
+            }
+        }
+        else {
+            makeToast("Switching Fail!");
         }
     }
 
@@ -102,12 +127,19 @@ public class ControlPanel extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch3);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch3);
         toggleSwitch3 = !toggleSwitch3;
-        if (toggleSwitch3) {
-            textView.setText("ON");
-            imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
-        } else {
-            textView.setText("OFF");
-            imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
+        String s = "task=" + (toggleSwitch3?"ON":"OFF") + "&pin=" + 45;
+        if(turn(s,task)) {
+            makeToast("Switching Done! ☺");
+            if (toggleSwitch3) {
+                textView.setText("ON");
+                imageView.setImageResource(android.R.drawable.button_onoff_indicator_on);
+            } else {
+                textView.setText("OFF");
+                imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
+            }
+        }
+        else {
+            makeToast("Switching Fail!");
         }
     }
 
@@ -145,6 +177,10 @@ public class ControlPanel extends AppCompatActivity {
             layoutSwitches.setVisibility(View.VISIBLE);
             layoutScheduler.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void makeToast(String s){
+        Toast.makeText(this,s, Toast.LENGTH_LONG).show();
     }
 
     @Override
