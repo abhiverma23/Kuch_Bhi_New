@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -41,6 +42,8 @@ public class ControlPanel extends AppCompatActivity {
 
     InputStream is = null;
     private int h, m;
+    private int pin;
+    private String toDoStatus = "ON";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +88,8 @@ public class ControlPanel extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch1);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch1);
         toggleSwitch1 = !toggleSwitch1;
-        String s = "task=" + (toggleSwitch1?"ON":"OFF") + "&pin=" + 66;
-        if(turn(s,task)) {
+        String s = "task=" + (toggleSwitch1 ? "ON" : "OFF") + "&pin=" + 66;
+        if (turn(s, task)) {
             makeToast("Switching Done! ☺");
             if (toggleSwitch1) {
                 textView.setText("ON");
@@ -95,8 +98,7 @@ public class ControlPanel extends AppCompatActivity {
                 textView.setText("OFF");
                 imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
             }
-        }
-        else {
+        } else {
             makeToast("Switching Fail!");
         }
     }
@@ -106,8 +108,8 @@ public class ControlPanel extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch2);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch2);
         toggleSwitch2 = !toggleSwitch2;
-        String s = "task=" + (toggleSwitch2?"ON":"OFF") + "&pin=" + 69;
-        if(turn(s,task)) {
+        String s = "task=" + (toggleSwitch2 ? "ON" : "OFF") + "&pin=" + 69;
+        if (turn(s, task)) {
             makeToast("Switching Done! ☺");
             if (toggleSwitch2) {
                 textView.setText("ON");
@@ -116,8 +118,7 @@ public class ControlPanel extends AppCompatActivity {
                 textView.setText("OFF");
                 imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
             }
-        }
-        else {
+        } else {
             makeToast("Switching Fail!");
         }
     }
@@ -127,8 +128,8 @@ public class ControlPanel extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch3);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch3);
         toggleSwitch3 = !toggleSwitch3;
-        String s = "task=" + (toggleSwitch3?"ON":"OFF") + "&pin=" + 45;
-        if(turn(s,task)) {
+        String s = "task=" + (toggleSwitch3 ? "ON" : "OFF") + "&pin=" + 45;
+        if (turn(s, task)) {
             makeToast("Switching Done! ☺");
             if (toggleSwitch3) {
                 textView.setText("ON");
@@ -137,8 +138,7 @@ public class ControlPanel extends AppCompatActivity {
                 textView.setText("OFF");
                 imageView.setImageResource(android.R.drawable.button_onoff_indicator_off);
             }
-        }
-        else {
+        } else {
             makeToast("Switching Fail!");
         }
     }
@@ -148,17 +148,32 @@ public class ControlPanel extends AppCompatActivity {
         int id = view.getId();
         makeVisible(SCHEDULER_SCREEN);
         isOnSwitchScreen = false;
+        RadioButton radioButton = (RadioButton) findViewById(R.id.radio_on);
+        toDoStatus = radioButton.isChecked() ? "ON" : "OFF";
         Log.v("Control Panel", "Id is " + id);
         if (id == R.id.t1) {
-            Toast.makeText(this, "Set Time for 1", Toast.LENGTH_SHORT).show();
+            pin = 66;
+            makeToast("Set Time for 1", true);
+        } else if (id == R.id.t2) {
+            pin = 69;
+            makeToast("Set Time for 2", true);
+        } else if (id == R.id.t3) {
+            pin = 45;
+            makeToast("Set Time for 3", true);
+        } else {
+            makeToast("Error : Unexpected #001");
+            return;
         }
-        if (id == R.id.t2) {
-            Toast.makeText(this, "Set Time for 2", Toast.LENGTH_SHORT).show();
+        // Make task to submit scheduled task
+    }
+
+    public void setSchedule(View view) {
+        if (turn("task=" + toDoStatus + "&p=" + pin + "&setwettime=YO&hh=" + h + "&mm=" + m, task)) {
+            makeToast("Turn " + toDoStatus + " schedule saved");
+        } else {
+            makeToast("Error : Unable to communicate");
         }
-        if (id == R.id.t3) {
-            Toast.makeText(this, "Set Time for 3", Toast.LENGTH_SHORT).show();
-        }
-        // TODO : ADD task here to submit scheduled task
+        cancelScheduler(view);
     }
 
     public void cancelScheduler(View view) {
@@ -179,8 +194,27 @@ public class ControlPanel extends AppCompatActivity {
         }
     }
 
-    private void makeToast(String s){
-        Toast.makeText(this,s, Toast.LENGTH_LONG).show();
+    private void makeToast(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+    }
+
+    private void makeToast(String s, boolean what_the_) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
+    public void radioButtonToggle(View view) {
+        int id = view.getId();
+        RadioButton radioButton = null;
+        if (id == R.id.radio_on) {
+            radioButton = (RadioButton) findViewById(R.id.radio_off);
+            toDoStatus="ON";
+        } else if (id == R.id.radio_off) {
+            radioButton = (RadioButton) findViewById(R.id.radio_on);
+            toDoStatus="OFF";
+        }
+        if (radioButton != null) {
+            radioButton.setChecked(false);
+        }
     }
 
     @Override

@@ -272,14 +272,17 @@
                         android:layout_weight="1"
                         android:text="Turn ON"
                         android:layout_margin="8dp"
-                        android:id="@+id/radio_on"/>
+                        android:checked="true"
+                        android:id="@+id/radio_on"
+                        android:onClick="radioButtonToggle"/>
                     <RadioButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_margin="8dp"
                         android:text="Turn OFF"
-                        android:id="@+id/radio_off"/>
+                        android:id="@+id/radio_off"
+                        android:onClick="radioButtonToggle"/>
                 </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -296,7 +299,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Set This"/>
+                    android:text="Set This"
+                    android:onClick="setSchedule"/>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
