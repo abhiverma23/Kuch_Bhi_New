@@ -84,6 +84,10 @@ public class ControlPanel extends AppCompatActivity {
     }
 
     public void toggleSwitch1(View view) {
+        if (!isConnected) {
+            makeToast("Check connection WiFi/IP");
+            return;
+        }
         Log.v("Control Panel", "In toggleSwitch1() Method");
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch1);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch1);
@@ -104,6 +108,10 @@ public class ControlPanel extends AppCompatActivity {
     }
 
     public void toggleSwitch2(View view) {
+        if (!isConnected) {
+            makeToast("Check connection WiFi/IP");
+            return;
+        }
         Log.v("Control Panel", "In toggleSwitch2() Method");
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch2);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch2);
@@ -124,6 +132,10 @@ public class ControlPanel extends AppCompatActivity {
     }
 
     public void toggleSwitch3(View view) {
+        if (!isConnected) {
+            makeToast("Check connection WiFi/IP");
+            return;
+        }
         Log.v("Control Panel", "In toggleSwitch3() Method");
         TextView textView = (TextView) findViewById(R.id.toggle_text_switch3);
         ImageView imageView = (ImageView) findViewById(R.id.toggle_button_switch3);
@@ -168,6 +180,10 @@ public class ControlPanel extends AppCompatActivity {
     }
 
     public void setSchedule(View view) {
+        if (!isConnected) {
+            makeToast("Check connection WiFi/IP");
+            return;
+        }
         if (turn("task=" + toDoStatus + "&p=" + pin + "&setwettime=YO&hh=" + h + "&mm=" + m, task)) {
             makeToast("Turn " + toDoStatus + " schedule saved");
         } else {
@@ -207,10 +223,10 @@ public class ControlPanel extends AppCompatActivity {
         RadioButton radioButton = null;
         if (id == R.id.radio_on) {
             radioButton = (RadioButton) findViewById(R.id.radio_off);
-            toDoStatus="ON";
+            toDoStatus = "ON";
         } else if (id == R.id.radio_off) {
             radioButton = (RadioButton) findViewById(R.id.radio_on);
-            toDoStatus="OFF";
+            toDoStatus = "OFF";
         }
         if (radioButton != null) {
             radioButton.setChecked(false);
